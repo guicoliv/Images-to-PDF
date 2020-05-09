@@ -106,7 +106,7 @@ public class FAQFragment extends Fragment implements OnItemClickListener {
             if ( !query.isEmpty() ) {
                 List<FAQItem> filteredMFaqs = new ArrayList<>();
                 for ( int i = 0; i < mFaqs.size(); i++ ) {
-                    if ( mFaqs.get(i).getQuestion().toUpperCase().contains( query.toUpperCase() ) ) {
+                    if ( mFaqs.get(i).getQuestion().toLowerCase().contains( query.toLowerCase() ) ) {
                         filteredMFaqs.add(mFaqs.get(i));
                     }
                 }
