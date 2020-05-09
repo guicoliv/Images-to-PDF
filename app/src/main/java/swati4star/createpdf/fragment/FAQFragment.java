@@ -50,6 +50,69 @@ public class FAQFragment extends Fragment implements OnItemClickListener {
         return view;
     }
 
+<<<<<<< HEAD
+=======
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        // menu to inflate the view where search icon is there.
+        inflater.inflate(R.menu.activity_faq_actions, menu);
+
+        MenuItem item = menu.findItem(R.id.action_search);
+        mSearchView = (SearchView) item.getActionView();
+        mSearchView.setQueryHint(getString(R.string.search));
+        mSearchView.setSubmitButtonEnabled(true);
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                setDataForQueryChange(s);
+                mSearchView.clearFocus();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                setDataForQueryChange(s);
+                return true;
+            }
+        });
+        mSearchView.setOnCloseListener(() -> {
+            populateFAQList(null);
+            return false;
+        });
+        mSearchView.setIconifiedByDefault(true);
+    }
+
+    private void setDataForQueryChange(String s) {
+        populateFAQList(s);
+    }
+
+    /**
+     * populate faq questions with search query
+     *
+     * @param query to filter faq questions, {@code null} to get all
+     */
+    private void populateFAQList(@Nullable String query) {
+        if ( query != null ) {
+            if ( !query.isEmpty() ) {
+                List<FAQItem> filteredMFaqs = new ArrayList<>();
+                for ( int i = 0; i < mFaqs.size(); i++ ) {
+                    if ( mFaqs.get(i).getQuestion().toLowerCase().contains( query.toLowerCase() ) ) {
+                        filteredMFaqs.add(mFaqs.get(i));
+                    }
+                }
+                mFaqAdapter = new FAQAdapter(filteredMFaqs, this);
+            } else {
+                mFaqAdapter = new FAQAdapter(mFaqs, this);
+            }
+        } else {
+            mFaqAdapter = new FAQAdapter(mFaqs, this);
+        }
+
+        mFAQRecyclerView.setAdapter(mFaqAdapter);
+    }
+
+>>>>>>> 737e0ce... upper to lower
     /**
      * Initializes the FAQs questions and answers by populating data from the
      * strings.xml file and adding it to the custom FAQItem Model.
