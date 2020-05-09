@@ -61,6 +61,10 @@ public class FAQAdapter extends RecyclerView.Adapter<FAQAdapter.FAQViewHolder> {
         return mFaqs.size();
     }
 
+    public List<FAQItem> getmFaqs() {
+        return mFaqs;
+    }
+
     public class FAQViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.question)
@@ -89,5 +93,7 @@ public class FAQAdapter extends RecyclerView.Adapter<FAQAdapter.FAQViewHolder> {
         public void onClick(View view) {
             mOnItemClickListener.onItemClick(getAdapterPosition());
         }
+
+
     }
 }

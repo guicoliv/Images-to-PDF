@@ -81,6 +81,7 @@ public class FAQFragment extends Fragment implements OnItemClickListener {
 
             @Override
             public boolean onQueryTextChange(String s) {
+                setDataForQueryChange(s);
                 return true;
             }
         });
@@ -101,17 +102,22 @@ public class FAQFragment extends Fragment implements OnItemClickListener {
      * @param query to filter faq questions, {@code null} to get all
      */
     private void populateFAQList(@Nullable String query) {
-        if ( !query.isEmpty() || query != null ) {
-            List<FAQItem> filteredMFaqs = new ArrayList<>();
-            for ( int i = 0; i < mFaqs.size(); i++ ) {
-                if ( mFaqs.get(i).getQuestion().contains( query ) ) {
-                    filteredMFaqs.add(mFaqs.get(i));
+        if ( query != null ) {
+            if ( !query.isEmpty() ) {
+                List<FAQItem> filteredMFaqs = new ArrayList<>();
+                for ( int i = 0; i < mFaqs.size(); i++ ) {
+                    if ( mFaqs.get(i).getQuestion().toUpperCase().contains( query.toUpperCase() ) ) {
+                        filteredMFaqs.add(mFaqs.get(i));
+                    }
                 }
+                mFaqAdapter = new FAQAdapter(filteredMFaqs, this);
+            } else {
+                mFaqAdapter = new FAQAdapter(mFaqs, this);
             }
-            mFaqAdapter = new FAQAdapter(filteredMFaqs, this);
         } else {
             mFaqAdapter = new FAQAdapter(mFaqs, this);
         }
+
         mFAQRecyclerView.setAdapter(mFaqAdapter);
     }
 
@@ -147,7 +153,7 @@ public class FAQFragment extends Fragment implements OnItemClickListener {
      */
     @Override
     public void onItemClick(int position) {
-        FAQItem faqItem = mFaqs.get(position);
+        FAQItem faqItem = mFaqAdapter.getmFaqs().get(position);
         faqItem.setExpanded(!faqItem.isExpanded());
         mFaqAdapter.notifyItemChanged(position);
     }
